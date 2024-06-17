@@ -47,7 +47,7 @@ jobs:
 
   
     - name: Terraform Plan
-      run: terraform plan -input=false
+      run: terraform plan -out=tfplan.out
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }} 
 
@@ -67,5 +67,5 @@ jobs:
       ## Terraform Apply ##
     - name: Apply Terraform
       run: |
-          terraform apply         
+          terraform apply -auto-approve tfplan.out        
 
