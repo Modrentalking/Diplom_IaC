@@ -14,28 +14,20 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
 
-    # Использовать оболочку Bash, независимо от того, является ли GitHub Actions runner ubuntu-latest, macos-latest или windows-latest
     defaults:
       run:
         shell: bash
 
     steps:
-    # Проверка репозитория на GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
 
-    # Установка последней версии Terraform CLI и настройка файла конфигурации Terraform CLI с помощью токена пользователя Terraform Cloud
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
     
-    - name: Setup GCP credentianls
-      run: |-
-        echo "${{ secrets.STATE }}" > ./state.json
-        echo "${{ secrets.CLUSTER }}" > ./cluster.json
-
-    
+   
     - name: Setup terraform variables
       id: vars
       run: |-
@@ -45,18 +37,15 @@ jobs:
         clusterName="${{ vars.CLUSTER_NAME }}"
         EOF
     
-        # Инициализация новой или существующей рабочей директории Terraform, создание начальных файлов, загрузка удаленного состояния, загрузка модулей и т.д.
     - name: Terraform Init
       run: |-
         terraform init
       env:
-        GOOGLE_CREDENTIALS: ${{ secrets.CLUSTER }} 
+        GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }} 
 
-
-
-    # Генерация плана выполнения для Terraform
+  
     - name: Terraform Plan
       run: terraform plan -input=false
       env:
-        GOOGLE_CREDENTIALS: ${{ secrets.CLUSTER }} 
+        GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }} 
 
