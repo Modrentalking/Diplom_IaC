@@ -39,8 +39,7 @@ jobs:
     - name: Terraform Init
       run: |-
         terraform init
-      env:
-        GOOGLE_CREDENTIALS: ${{ secrets.STATE }}
+
 
     # Проверка соответствия всех файлов конфигурации Terraform каноническому формату
     - name: Terraform Format

@@ -2,7 +2,7 @@ resource "google_container_cluster" "gke_cluster" {
   name     = var.clusterName
   location = var.region
   project = var.project
-  provider = google.gcp-service-project
+
 
   initial_node_count = 0
   networking_mode = "VPC_NATIVE"
