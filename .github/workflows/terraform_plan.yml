@@ -4,9 +4,11 @@ on:
   push:
     branches: [ "master" ]
   pull_request:
+    
 
 permissions:
   contents: read
+  issues: write
 
 jobs:
   terraform:
@@ -48,4 +50,22 @@ jobs:
       run: terraform plan -input=false
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }} 
+
+    - name: Manual Approval
+      uses: trstringer/manual-approval@v1
+      timeout-minutes: 60
+      with:
+          secret: ${{ github.token }}
+          approvers: Modrentalking
+          minimum-approvals: 1
+          issue-title: "Please validate the terraform plan"
+          issue-body: "Please check the output of the terraform plan and approve or deny"
+          exclude-workflow-initiator-as-approver: false
+          additional-approved-words: 'yes'
+          additional-denied-words: 'no'
+            
+      ## Terraform Apply ##
+    - name: Apply Terraform
+      run: |
+          terraform apply         
 
