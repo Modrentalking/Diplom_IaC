@@ -55,7 +55,7 @@ jobs:
 
     # Генерация плана выполнения для Terraform
     - name: Terraform Plan
-      run: terraform plan -input=false
+      run: terraform plan -backend-config=./state.json -input=false
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.CLUSTER }} 
 
