@@ -45,17 +45,19 @@ jobs:
         clusterName="${{ vars.CLUSTER_NAME }}"
         EOF
     
-        # Инициализация новой или существующей рабочей директории Terraform, создание начальных файлов, загрузка удаленного состояния, загрузка модулей и т.д.
+   
+
     - name: Terraform Init
       run: |-
-        terraform init
-      env:
-        GOOGLE_CREDENTIALS: ${{ secrets.STATE }} 
-
-
-    # Генерация плана выполнения для Terraform
+          terraform init \
+          -backend-config=state.json \
+          -backend-config=cluster.json
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.STATE }} 
+  
+      # Генерация плана выполнения для Terraform с использованием разных наборов учетных данных
     - name: Terraform Plan
-      run: terraform plan -backend-config=./state.json -input=false
-      env:
-        GOOGLE_CREDENTIALS: ${{ secrets.CLUSTER }} 
-
+      run: |-
+          terraform plan \
+          -var-file=pipeline.auto.tfvars \
+          -input=false
