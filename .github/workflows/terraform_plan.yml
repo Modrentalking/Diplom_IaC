@@ -38,8 +38,9 @@ jobs:
     # Инициализация новой или существующей рабочей директории Terraform, создание начальных файлов, загрузка удаленного состояния, загрузка модулей и т.д.
     - name: Terraform Init
       run: |-
-        cat ./state.json
         terraform init
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.STATE }}
 
     # Проверка соответствия всех файлов конфигурации Terraform каноническому формату
     - name: Terraform Format
