@@ -29,6 +29,11 @@ jobs:
       uses: hashicorp/setup-terraform@v1
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+    
+    - name: Setup GCP credentianls
+      run: |-
+        echo "${{ secrets.STATE }}" > ./state.json
+        echo "${{ secrets.CLUSTER }}" > ./cluster.json
 
     # Инициализация новой или существующей рабочей директории Terraform, создание начальных файлов, загрузка удаленного состояния, загрузка модулей и т.д.
     - name: Terraform Init
