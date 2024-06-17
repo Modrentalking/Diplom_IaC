@@ -57,5 +57,5 @@ jobs:
     - name: Terraform Plan
       run: terraform plan -input=false
       env:
-        GOOGLE_CREDENTIALS: ${{ secrets.STATE }} 
+        GOOGLE_CREDENTIALS: ${{ secrets.CLUSTER }} 
 
