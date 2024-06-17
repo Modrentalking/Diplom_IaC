@@ -67,5 +67,7 @@ jobs:
       ## Terraform Apply ##
     - name: Apply Terraform
       run: |
-          terraform apply -auto-approve tfplan.out        
+          terraform apply -auto-approve tfplan.out
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}         
 
