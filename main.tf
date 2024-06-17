@@ -51,6 +51,7 @@ resource "google_container_cluster" "gke_cluster" {
     }
 
   }
+  
 
   release_channel {
     channel = "REGULAR"
@@ -68,4 +69,33 @@ resource "google_container_cluster" "gke_cluster" {
   }
 
 }
+resource "google_container_node_pool" "logging" {
+  name       = "logging"
+  cluster    = google_container_cluster.gke_cluster.id
+  node_count = 1
+  provider = google.gcp-service-project
 
+  node_config {
+    disk_size_gb = 50
+    enable_confidential_storage = false
+          
+    preemptible  = true
+    machine_type = "n1-standard-1"
+    service_account = "diplom@tensile-will-419716.iam.gserviceaccount.com"
+    spot = true 
+
+    shielded_instance_config {
+      enable_integrity_monitoring = true
+      enable_secure_boot          = false
+    }
+    advanced_machine_features {
+      enable_nested_virtualization = false
+      threads_per_core             = 0
+    }
+
+  }
+  queued_provisioning {
+    enabled = false
+  }
+
+}
