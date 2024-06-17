@@ -79,7 +79,7 @@ resource "google_container_node_pool" "logging" {
     disk_size_gb = 50
     enable_confidential_storage = false
           
-    preemptible  = true
+
     machine_type = "n1-standard-1"
     service_account = "diplom@tensile-will-419716.iam.gserviceaccount.com"
     spot = true 
