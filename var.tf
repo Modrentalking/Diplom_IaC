@@ -8,10 +8,3 @@ variable "project" {
 variable "clusterName" {
   description = "Name of our Cluster"
 }
-variable "diskSize" {
-  description = "Node disk size in GB"
-}
-
-variable "machineType" {
-  description = "Node Instance machine type"
-}

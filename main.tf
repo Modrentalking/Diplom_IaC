@@ -7,10 +7,10 @@ resource "google_container_cluster" "gke_cluster" {
   initial_node_count = 0
   networking_mode = "VPC_NATIVE"
   node_config{
-      disk_size_gb = var.diskSize
+      disk_size_gb = 50
       enable_confidential_storage = false
       local_ssd_count = 0
-      machine_type = var.machineType
+      machine_type = "n1-standard-1"
       service_account = "diplom@tensile-will-419716.iam.gserviceaccount.com"
       spot = true 
 
@@ -30,9 +30,9 @@ resource "google_container_cluster" "gke_cluster" {
       auto_upgrade = true
     }
     node_config{
-      disk_size_gb = var.diskSize
+      disk_size_gb = 50
       enable_confidential_storage = false
-      machine_type = var.machineType
+      machine_type = "n1-standard-1"
       service_account = "diplom@tensile-will-419716.iam.gserviceaccount.com"
       spot = true 
        
