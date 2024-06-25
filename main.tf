@@ -5,14 +5,16 @@ resource "google_container_cluster" "gke_cluster" {
 
   initial_node_count = 0
   networking_mode    = "VPC_NATIVE"
-
 }
- resource "google_container_node_pool" "default" {
+
+resource "google_container_node_pool" "default" {
   name = "default-pool"
-  cluster    = var.clusterName
+  cluster    = google_container_cluster.gke_cluster.name
   location = var.region
   project  = var.project
   node_count = 1
+
+  depends_on = [google_container_cluster.gke_cluster]
 
   node_config {
     disk_size_gb = 50
@@ -38,8 +40,10 @@ resource "google_container_cluster" "gke_cluster" {
 
 resource "google_container_node_pool" "logging" {
   name       = "logging"
-  cluster    = var.clusterName
+  cluster    = google_container_cluster.gke_cluster.name
   node_count = 1
+
+  depends_on = [google_container_cluster.gke_cluster]
 
   node_config {
     disk_size_gb = 50
@@ -56,7 +60,6 @@ resource "google_container_node_pool" "logging" {
       enable_nested_virtualization = false
       threads_per_core             = 0
     }
-
   }
   queued_provisioning { 
       enabled = false 
